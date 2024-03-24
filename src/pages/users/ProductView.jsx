@@ -5,6 +5,7 @@ import { getProductById } from '../../services/ProductService'
 import { Badge, Button, Card, Col, Container, Row } from 'react-bootstrap'
 import ShowHtml from '../../components/users/ShowHtml'
 import CartContext from '../../context/CartContext'
+import { BASE_URL } from "../../services/HelperService";
 
 function ProductView() {
 
@@ -67,7 +68,7 @@ function ProductView() {
 
                                         <Col>
                                             <img 
-                                            src={'/assets/phone.png'} 
+                                            src={product?.imageName ? BASE_URL + '/products/images/' + product.productId + '?' + new Date().getTime() : "/assets/defaultProfile.png"} 
                                             alt='' 
                                             style={{
                                                 width: '500px'

@@ -1,6 +1,7 @@
 import React from 'react'
 import { Badge, Button, Card, Container } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
+import { BASE_URL } from "../../services/HelperService";
 
 function SingleProductCard( {product}) {
   return (
@@ -9,7 +10,7 @@ function SingleProductCard( {product}) {
             <Card.Body>
                 <Container className='text-center'>
 
-                    <img src={'/assets/defaultProfile.png'} alt='' style={{ width: '100px', height: '100px'}} />
+                    <img className="rounded-circle" src={product?.imageName ? BASE_URL + '/products/images/' + product.productId + '?' + new Date().getTime() : "/assets/defaultProfile.png"} alt='' style={{ width: '100px', height: '100px', objectFit:"cover"}} />
 
                 </Container>
 

@@ -32,27 +32,27 @@ const CustomNavbar = () =>{
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="m-auto">
-            <Nav.Link as={NavLink} to="/services">Features</Nav.Link>
+            <Nav.Link eventKey="1" as={NavLink} to="/services">Features</Nav.Link>
             
             <NavDropdown title="Categories" id="collasible-nav-dropdown">
-              <NavDropdown.Item as={NavLink} to="/">Samsung</NavDropdown.Item>
-              <NavDropdown.Item as={NavLink} to="/">
+              <NavDropdown.Item eventKey="a" as={NavLink} to="/">Samsung</NavDropdown.Item>
+              <NavDropdown.Item eventKey="b" as={NavLink} to="/">
                 Apple
               </NavDropdown.Item>
-              <NavDropdown.Item as={NavLink} to="/">One Plus</NavDropdown.Item>
+              <NavDropdown.Item eventKey="c" as={NavLink} to="/">One Plus</NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item as={NavLink} to="/">
+              <NavDropdown.Item eventKey="d" as={NavLink} to="/">
                 More
               </NavDropdown.Item>
             </NavDropdown>
 
-            <Nav.Link as={NavLink} to="/about">About</Nav.Link>
-            <Nav.Link as={NavLink} to="/contact">ContactUs</Nav.Link>
+            <Nav.Link eventKey="2" as={NavLink} to="/about">About</Nav.Link>
+            <Nav.Link eventKey="3" as={NavLink} to="/contact">ContactUs</Nav.Link>
           </Nav>
 
           <Nav>
-            <Nav.Link as={NavLink} to="/store">Store</Nav.Link>
-            <Nav.Link as={NavLink} to="/cart">Cart {userContext.isLogin && ( '(' + cart?.items?.length + ')' ) }</Nav.Link>
+            <Nav.Link eventKey="4" as={NavLink} to="/store">Store</Nav.Link>
+            <Nav.Link eventKey="5" as={NavLink} to="/cart">Cart {userContext.isLogin && ( '(' + cart?.items?.length + ')' ) }</Nav.Link>
 
             {
               (userContext.isLogin) ? (
@@ -60,20 +60,20 @@ const CustomNavbar = () =>{
 
                   { userContext.isAdminUser && (
                     <>
-                      <Nav.Link as={NavLink} to="/admin/home">AdminDashboard</Nav.Link>
+                      <Nav.Link eventKey="6" as={NavLink} to="/admin/home">AdminDashboard</Nav.Link>
                     </>
                   )
                   }
 
-                  <Nav.Link as={NavLink} to={`/users/profile/${userContext.userData.user.userId}`}>{userContext.userData.user.email}</Nav.Link>
-                  <Nav.Link as={NavLink} to="/users/orders">Orders</Nav.Link>
-                  <Nav.Link as={NavLink} to="/register" onClick={doLogout}>Logout</Nav.Link>
+                  <Nav.Link eventKey="7" as={NavLink} to={`/users/profile/${userContext.userData.user.userId}`}>{userContext.userData.user.email}</Nav.Link>
+                  <Nav.Link eventKey="8" as={NavLink} to="/users/orders">Orders</Nav.Link>
+                  <Nav.Link eventKey="9" as={NavLink} to="/register" onClick={doLogout}>Logout</Nav.Link>
                 </>
  
               ) : (
                 <>
-                  <Nav.Link as={NavLink} to="/login">Login</Nav.Link>
-                  <Nav.Link as={NavLink} to="/register">Signup</Nav.Link>
+                  <Nav.Link eventKey="10" as={NavLink} to="/login">Login</Nav.Link>
+                  <Nav.Link eventKey="11" as={NavLink} to="/register">Signup</Nav.Link>
                 </>
 
               )

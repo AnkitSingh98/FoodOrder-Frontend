@@ -44,7 +44,7 @@ const AddProduct = () => {
 
     const clearData = ()=>{
 
-        editorRef.current.setContent('')
+        //editorRef.current.setContent('')
 
         setProduct({
             ...product,
@@ -95,7 +95,7 @@ const AddProduct = () => {
         {
             console.log("inside none category")
             createProductWithoutCategory(product)
-                    .then((response) => {
+                    .then( (response) => {
                         toast.success("Product is created !!")
                         console.log(response)
                         clearData()
@@ -132,6 +132,7 @@ const AddProduct = () => {
                         createProductWithCategory(selectedCategoryId, product)
                             .then((res)=>{
                                 toast.success("Product created successfully !!")
+                                console.log(res)
                                clearData() 
                                
                                // update image

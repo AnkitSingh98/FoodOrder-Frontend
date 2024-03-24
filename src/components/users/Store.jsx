@@ -96,7 +96,7 @@ const Store = () => {
                                     action 
                                     key={category.categoryId}
                                 >
-                                    <img src={'/assets/defaultProfile.png'} alt="" style={{width: '40px', height: '40px'}}/>
+                                    <img className="rounded-circle" src={(category.coverImage ? (category.coverImage.startsWith("http") ? category.coverImage : "/assets/defaultProfile.png") : "/assets/defaultProfile.png")} alt="" style={{width: '40px', height: '40px', objectFit:"cover"}}/>
                                     <span className="ms-2">{category.title}</span>
 
                                 </ListGroup.Item>
