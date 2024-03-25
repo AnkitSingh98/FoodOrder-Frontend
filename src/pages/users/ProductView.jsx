@@ -70,10 +70,8 @@ function ProductView() {
                                             <img 
                                             src={product?.imageName ? BASE_URL + '/products/images/' + product.productId + '?' + new Date().getTime() : "/assets/defaultProfile.png"} 
                                             alt='' 
-                                            style={{
-                                                width: '500px'
-                                            }}
-
+                                            style={{ width: '300px', height: '300px', objectFit:"cover"}}
+                                            className="rounded-circle"
                                             />
                                         </Col>
 

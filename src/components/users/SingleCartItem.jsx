@@ -3,6 +3,7 @@ import { Button, Card, Col, Container, Row } from 'react-bootstrap'
 import { BsPlusLg } from 'react-icons/bs'
 import { AiOutlineMinus } from 'react-icons/ai'
 import { toast } from 'react-toastify'
+import { BASE_URL } from "../../services/HelperService";
 
 function SingleCartItem( {item, removeItem, addItem} ) {
 
@@ -14,11 +15,12 @@ function SingleCartItem( {item, removeItem, addItem} ) {
                 <Row>
                     <Col md={2} className="d-flex  align-items-center  justify-content-center">
                         <img 
-                            src={'/assets/cart.png'} 
+                            src={item.product?.imageName ? BASE_URL + '/products/images/' + item.product.productId + '?' + new Date().getTime() : "/assets/defaultProfile.png"}  
                             alt=''
                             style={{
                                     width:"100px",
-                                    objectFit:"contain"
+                                    height:"100px",
+                                    objectFit:"cover"
                             }}
                             className='rounded-circle'
                         />
