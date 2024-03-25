@@ -82,6 +82,11 @@ const Profile = () =>{
                 toast.error("User name is required!!");
                 return
             }
+
+            if(userUpdate.address === undefined || userUpdate?.address?.trim() === ''){
+                toast.error("Address is required for delivery!!");
+                return
+            }
         
         //Call Backend API
             updateUser(userUpdate)
@@ -240,12 +245,12 @@ const Profile = () =>{
                                                     </tr>
 
                                                     <tr>
-                                                        <td>About</td>
+                                                        <td>Address</td>
                                                         <td> 
                                                             <Form.Control 
                                                                 as={'textarea'} 
-                                                                value={userUpdate.about}
-                                                                onChange={(event)=> handleUpdateForm(event,'about')}
+                                                                value={userUpdate.address}
+                                                                onChange={(event)=> handleUpdateForm(event,'address')}
                                                                 rows={8}
                                                             /> 
                                                         </td>

@@ -56,8 +56,8 @@ const UserProfileView = ( { user = null , handleShowModal } ) => {
                                                     </tr>
 
                                                     <tr>
-                                                        <td>About</td>
-                                                        <td> {user.about} </td>
+                                                        <td>Address</td>
+                                                        <td> {user.address} </td>
                                                     </tr>
 
                                                     <tr>

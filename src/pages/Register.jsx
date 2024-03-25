@@ -17,7 +17,7 @@ const Register = () =>{
         password:'',
         confirmPassword:'',
         gender:'',
-        about:''
+        address:''
     })
 
 
@@ -49,7 +49,7 @@ const Register = () =>{
             password:'',
             confirmPassword:'',
             gender:'',
-            about:''
+            address:''
         })
 
         setError({
@@ -86,6 +86,11 @@ const Register = () =>{
         if(data.password !=  data.confirmPassword){
 
             toast.error("Password and ConfirmPassword did not match !!")
+            return
+        }
+
+        if(data.address == undefined || data.address.trim()==''){
+            toast.error("Address is required for delivery!!")
             return
         }
 
@@ -258,22 +263,22 @@ const signupForm = () =>{
 
 
 
-                        {/* About yourself area   */}
+                        {/* Address   */}
 
-                        <Form.Group className="mb-3" controlId="formArea">
-                             <Form.Label>Enter something about yourself</Form.Label>
+                        <Form.Group className="mb-3 mt-3" controlId="formArea">
+                             <Form.Label>Enter your present address for delivery</Form.Label>
                              <Form.Control 
                                     as={'textarea'} 
                                     rows="6" 
                                     placeholder="Write here" 
 
-                                    name="about"
+                                    name="address"
                                     onChange={handleChange}
-                                    value={data.about}
+                                    value={data.address}
 
-                                    isInvalid={error.errorData?.response?.data?.about}
+                                    isInvalid={error.errorData?.response?.data?.address}
                                 />
-                                <Form.Control.Feedback type="invalid">{error.errorData?.response?.data?.about}</Form.Control.Feedback>
+                                <Form.Control.Feedback type="invalid">{error.errorData?.response?.data?.address}</Form.Control.Feedback>
                         </Form.Group>
 
 

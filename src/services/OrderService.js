@@ -14,11 +14,17 @@ export const updateOrder = async (order, orderId) => {
 
 }
 
-export const createOrder = (order) =>{
+export const updateOrderPayment = async (orderId,paymentId) => {
 
-    return privateAxios
-                .post(`/orders/create-order`, order)
-                .then((response)=> response.data)
+    const response = await privateAxios.put(`/orders/payment/${orderId}/${paymentId}`)
+    return response.data;
+
+}
+
+export const createOrder = async (order) =>{
+
+    const response =  await privateAxios.post(`/orders/create-order`, order)
+    return response.data;
 
 }
 

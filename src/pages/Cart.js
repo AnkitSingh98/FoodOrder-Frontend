@@ -1,21 +1,28 @@
-import { React, useContext, useState } from "react";
+import { React, useContext, useState, useEffect } from "react";
 import CartContext from "../context/CartContext";
 import { Alert, Button, Card, Col, Container, Form, FormGroup, Row } from "react-bootstrap";
 import SingleCartItem from "../components/users/SingleCartItem";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import { createOrder } from "../services/OrderService";
+import { createOrder, updateOrderPayment } from "../services/OrderService";
 import { isLoggedIn } from "../auth/HelperAuth";
+import { paymentService } from "../services/PaymentService";
+import UserContext from "../context/UserContext";
+
 
 const Cart = ()=>{
 
 
     const { cart, setCart, addItem, removeItem, clearCart} = useContext(CartContext)
+    const userContext = useContext(UserContext)
+
     const [ placeOrderClicked, setPlaceOrderClicked ] = useState(false)
+    const [ createdOrderId, setCreatedOrderId ] = useState();
 
     const [ orderDetails, setOrderDetails ] = useState({
         cartId:'',
-        address:''
+        address:'',
+        razorpayOrderId:''
     })
     
     const calcTotalAmount = () => {
@@ -29,10 +36,94 @@ const Cart = ()=>{
         return totalAmount
     }
 
+    // Payment logic
 
-    const handleOrderCreation = (event) =>{
+    const paymentStart = async (event, toPayAmount=0) => {
 
         event.preventDefault()
+
+        if(toPayAmount == "" || toPayAmount== null || toPayAmount == undefined){
+            toast.error("Minimum order value should be greater than ₹0!!")
+            return
+        }
+
+        // we will use AJAX to send request to server to create order
+
+        try{
+            const response = await paymentService(toPayAmount)
+            toast.success("Order Created")
+
+            if(response.status == 'created'){
+
+                let orderId = await handleOrderCreation(response.id)
+
+                console.log("created orderId = "+ orderId)
+
+                // Open Payment form
+
+                let options = {
+
+                    key: "rzp_test_itMZbddnuzzYl5",
+                    amount: response.amount,
+                    currency: "INR",
+                    name: "Hunger hub",
+                    description: "Paid for the delicious food!!",
+                    image: "https://fastly.picsum.photos/id/736/200/300.jpg?hmac=WlU1DEqIVU_kIsTa682WsLgBIfCRbqhOAuKifGAq8TY",
+                    order_id: response.id,
+                    handler: async function(response){
+                        
+                        const res = await updateOrderPayment(orderId, response.razorpay_payment_id)
+
+                        console.log(response)
+                        console.log(response.razorpay_payment_id)
+                        console.log(response.razorpay_order_id)
+                        console.log(response.razorpay_signature)
+                        alert("Congrats !! Payment successful")
+                    },
+                    "prefill": { 
+                        "name": "", 
+                        "email": "",
+                        "contact": "" 
+                    },
+                    "notes": {
+                        "address": "VPO- Khol, Rewari, Haryana, PIN- 123103"
+                    },
+                    "theme": {
+                        "color": "#3399cc"
+                    }
+
+                }
+
+                var rzp1 = new window.Razorpay(options); 
+
+                rzp1.on("payment.failed", function(response){
+                    console.log(response.error.code)
+                    console.log(response.error.description)
+                })
+
+                rzp1.open();
+
+                // document.getElementById('rzp-button1').onclick = function(e){
+                //     rzp1.open();
+                //     e.preventDefault();
+                // }
+
+            }
+            
+        }catch(error){
+            console.log(error)
+            toast.error("Error while making payment!!")
+        }
+    }
+
+
+    const handleOrderCreation =  async (rzpOrderId) =>{
+
+        //event.preventDefault()
+
+        orderDetails.address = userContext.userData.user.address;
+        orderDetails.razorpayOrderId = rzpOrderId
+        orderDetails.cartId = cart.cartId
 
         if(orderDetails.address == ''){
             toast.info("Address required !!",{
@@ -41,46 +132,52 @@ const Cart = ()=>{
            return
         }
 
-        orderDetails.cartId = cart.cartId
 
-        createOrder(orderDetails)
-                .then((response)=>{
-                    console.log(response)
-                    toast.success("Order Created !! Proceed for payment..")
-                })
-                .catch((error)=>{
-                    console.log(error)
-                    toast.error("Error while creating Order !!")
-                })
+        try{
+            const response = await createOrder(orderDetails)
+            console.log(response)
+            toast.success("Order Created !! Proceed for payment..")
+            return response.orderId
+        }catch(error){
+            console.log(error)
+            toast.error("Error while creating Order !!")
+        }
+
+        
+                
     }
 
 
     const orderFormView = () => {
 
         return(
-            <Form onSubmit={handleOrderCreation}>
+            <Form onSubmit={(event)=> {
+                console.log("form submitted")
+                paymentStart(event, calcTotalAmount())
+            }}>
 
                 <FormGroup className="mt-3"> 
-                    <Form.Label>Billing Address</Form.Label>
+                   {/*  <Form.Label>Address</Form.Label> */}
                     <Form.Control 
                         rows={6}
                         as={'textarea'}
                         placeholder="Enter here"
-                        value={orderDetails.address}
+                        value={userContext.userData.user.address}
+                        disabled
 
-                        onChange={ (event)=>{
-                            setOrderDetails({
-                                ...orderDetails,
-                                address: event.target.value
-                            })
-                        }}
+                        // onChange={ (event)=>{
+                        //     setOrderDetails({
+                        //         ...orderDetails,
+                        //         address: event.target.value
+                        //     })
+                        // }}
 
                     />
                 </FormGroup>
 
                 <Container className="mt-3 text-center">
                     <Button type="submit" variant="success" size="sm">
-                        Create Order and Proceed to Pay
+                        Confirm Order and Proceed to Pay
                     </Button>
                 </Container>
             </Form>
@@ -140,10 +237,12 @@ const Cart = ()=>{
 
                                     <Row className="mt-2">
                                         <Col className="text-center">
-
+                                        
                                         {
+                                            
                                         !placeOrderClicked &&
-                                        <Button onClick={(event)=> setPlaceOrderClicked(true)} variant="success" size="lg">Place Order</Button>
+                                            <Button onClick={(event)=> setPlaceOrderClicked(true)} variant="success" size="lg">Place Order</Button> 
+                                       // { <Button onClick={(event)=> paymentStart(calcTotalAmount())} variant="success" size="lg">Place Order and Pay</Button> }
 
                                         }
                                         </Col>
@@ -186,7 +285,7 @@ const Cart = ()=>{
                         <Col md={4}>
                             <Card className="mt-3 shadow-sm bg-dark text-white">
                                 <Card.Body>
-                                    <h4>Fill the form to complete order</h4>
+                                    <h4>Your delivery address:</h4>
                                     { orderFormView() }
                                 </Card.Body>
                             </Card>
