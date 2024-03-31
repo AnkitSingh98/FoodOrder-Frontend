@@ -6,6 +6,7 @@ import { getAllProducts, getProductsByCategory } from "../../services/ProductSer
 import SingleProductCard from "./SingleProductCard"
 import { Link } from "react-router-dom"
 import UserContext from "../../context/UserContext"
+import Footer from "../Footer";
 
 const Store = () => {
 
@@ -139,7 +140,7 @@ const Store = () => {
     
     return isLogin ? (
         <>
-            <Container fluid className="px-5 pt-5">
+            <Container fluid className="px-5 pt-5" >
                 <Row>
 
                     <Container fluid className="px-5 pt-5 mb-2">
@@ -160,7 +161,10 @@ const Store = () => {
                     </Col>
 
                 </Row>
+
             </Container>
+
+            
         </>
     ) :
 

@@ -26,12 +26,13 @@ const CustomNavbar = () =>{
         <Navbar.Brand as={NavLink} to="/">
         
         <img src={"/assets/logo1.png"} alt='logo' height={20} width={20} /> 
-         <span className="ms-1">ElectroStore </span>
+         <span className="ms-1">HungerHub </span>
 
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="m-auto">
+
+          {/* <Nav className="m-auto">
             <Nav.Link eventKey="1" as={NavLink} to="/services">Features</Nav.Link>
             
             <NavDropdown title="Categories" id="collasible-nav-dropdown">
@@ -48,7 +49,7 @@ const CustomNavbar = () =>{
 
             <Nav.Link eventKey="2" as={NavLink} to="/about">About</Nav.Link>
             <Nav.Link eventKey="3" as={NavLink} to="/contact">ContactUs</Nav.Link>
-          </Nav>
+          </Nav> */}
 
           <Nav>
             <Nav.Link eventKey="4" as={NavLink} to="/store">Store</Nav.Link>
@@ -65,7 +66,7 @@ const CustomNavbar = () =>{
                   )
                   }
 
-                  <Nav.Link eventKey="7" as={NavLink} to={`/users/profile/${userContext.userData.user.userId}`}>{userContext.userData.user.email}</Nav.Link>
+                  <Nav.Link eventKey="7" as={NavLink} to={`/users/profile/${userContext.userData.user.userId}`}>{ userContext.userData.user.email} </Nav.Link>
                   <Nav.Link eventKey="8" as={NavLink} to="/users/orders">Orders</Nav.Link>
                   <Nav.Link eventKey="9" as={NavLink} to="/register" onClick={doLogout}>Logout</Nav.Link>
                 </>

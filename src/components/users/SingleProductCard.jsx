@@ -15,7 +15,7 @@ function SingleProductCard( {product}) {
                 </Container>
 
                 <h6>{product.productName}</h6>
-                <p className='text-muted'>Short description <span> Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore, magnam</span></p>
+                <p className='text-muted'>{product.productDesc}</p>
 
                 <Badge pill bg='info'>{product?.category?.title}</Badge>
                 <Badge pill bg={product?.stock == true ? 'success' : 'danger' } className='ms-2'>{product?.stock == true ? 'In Stock' : 'Out of Stock'}</Badge>
