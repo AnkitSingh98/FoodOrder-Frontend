@@ -122,9 +122,6 @@ const Login = ()=>{
                         <Card className="my-2 border-0 shadow p-4" style={ { position:'relative', top:-60 } }>
                             <Card.Body>
 
-                                {JSON.stringify(data)}
-                                {JSON.stringify(userContext)}
-
                                 <Container className="text-center mb-3">
                                     <img src={"/assets/logo1.png"} alt="store logo" width={80} height={80} />
                                 </Container>
