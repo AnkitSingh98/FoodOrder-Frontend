@@ -32,7 +32,7 @@ const Base = ( {
 
             {children}
 
-            <Footer/>
+            {/* <Footer/> */}
 
         </div>
 
